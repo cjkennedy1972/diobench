@@ -1,0 +1,38 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: dat-pvc-claim
+spec:
+  storageClassName: dat-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1000Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: diobench
+spec:
+  template:
+    spec:
+      containers:
+      - name: diobench
+        image: xdatanext/diobench:latest
+        imagePullPolicy: Always
+        env:
+          - name: DIOBENCH_RESULTS
+            value: /data/perf_results
+        volumeMounts:
+          - mountPath: /data
+            name: diobench-pvc
+          command: [ "/bin/diobench", "--hello", "/data" , 10, 8192 ]
+          #command: [ "/bin/diobench", "--vdb", "/data", "vdbtestname" ]
+          #command: [ "/bin/diobench", "--fio", "fiotestname" ]
+      restartPolicy: Never
+      volumes:
+      - name: diobench-pvc
+        persistentVolumeClaim:
+          claimName: diobench-pvc-claim
+  backoffLimit: 4
