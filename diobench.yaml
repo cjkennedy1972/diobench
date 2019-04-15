@@ -29,7 +29,7 @@ spec:
             name: diobench-pvc
           command: [ "/bin/diobench", "--hello", "/data" , 10, 8192 ]
           #command: [ "/bin/diobench", "--vdb", "/data", "vdbtestname" ]
-          #command: [ "/bin/diobench", "--fio", "fiotestname" ]
+          #command: [ "/bin/diobench", "--fio", "/data", "fiotestname" ]
       restartPolicy: Never
       volumes:
       - name: diobench-pvc
