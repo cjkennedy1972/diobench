@@ -1,18 +1,6 @@
-dedupratio=2
-dedupunit=4k
-compratio=2
-concatenate=no
+# simple filesystem run 
 
-* File system definition 
-fsd=fsd1,anchor=/data,shared=yes,width=1,depth=2,files=1000,sizes=1M,distribution=all
-
-* File Workload definition
-fwd=fwd1,fsd=fsd1,operation=read,xfersize=4k,fileio=sequential,fileselect=random,threads=4
-*fwd=fwd1,fsd=fsd1,operation=write,xfersize=1024k,fileio=sequential,fileselect=random, stopafter=100,threads=1
-
-
-* Run definition 
+fsd=fsd1,anchor=/data,depth=2,width=2,files=2,size=128k
+fwd=fwd1,fsd=fsd1,operation=read,xfersize=4k,fileio=sequential,fileselect=random,threads=2
 rd=rd1,fwd=fwd1,fwdrate=100,format=yes,elapsed=10,interval=1
-* rd=rd1,fwd=fwd*,iorate=max,seekpct=100,rdpct=0,fwdrate=max,format=yes,elapsed=30,warmup=
-
 

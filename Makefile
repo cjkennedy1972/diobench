@@ -14,7 +14,9 @@ run:
 
 # do a sample run of 4 I/O of 4K each
 dio:
-	docker exec -ti $(RUN_NAME) /bin/diobench --hello /data 4 4096
+	#docker exec -ti $(RUN_NAME) /bin/diobench --hello /data 4 4096
+	#docker exec -ti $(RUN_NAME) /bin/diobench --fio /data fio_seq_RW
+	docker exec -ti $(RUN_NAME) /bin/diobench --vdb /data sample
 
 # get a shell to the container in the background
 shell:

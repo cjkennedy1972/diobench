@@ -36,21 +36,25 @@ def hello_io(args):
     if len(args) >= 3:
         blksize = int(args[2])
 
+    logger.debug("start: " + count + " data blocks of " + blksize);
     for c in range(0,count):
         databuf = os.urandom(blksize)
         hash_sha256 = hashlib.sha256()
         hash_sha256.update(databuf)
         sig = hash_sha256.hexdigest()
 
+        # write the data block as a file
         fname = root + "/" + str(sig)
         fh = open(fname, "wb")
         fh.write(databuf)
         fh.close()
-   
+  
+        # read back the data block file
         fh = open(fname, "rb")
         dbuf = fh.read()
         fh.close()
 
+        # compare the SHA256 signatures and make sure they match 
         hash_sha256_r = hashlib.sha256()
         hash_sha256_r.update(databuf)
         rsig = hash_sha256_r.hexdigest()
@@ -59,29 +63,40 @@ def hello_io(args):
             logger.error("Mismatch: " + str(sig) + "\t" + str(rsig))
             return -1;
         os.remove(fname)
-
+        logger.debug("end: " + count + " data blocks of " + blksize);
     return 0
 
 VDBENCH="/diobench/vdbench/vdbench"
 def vdb_io(args):
-    if len(args) < 1:
+    if len(args) < 2:
+        logger.error("vdbench </fsname> <testname>")
         return -1
     root = args[0]
+    #TODO: Check if this is a valid mountpoint
+    vdbtest = args[1]
+    vtestfile = "/diobench/vdbrun/" + vdbtest + ".vdb"
+    if not os.path.isfile(vtestfile):
+        logger.error(vtestfile + " not found")
+        return -1
     os.chdir(root)
-    vdbc = [ VDBENCH, " -tf" ]
-    if len(args) > 1:
-        vdbc.append(args)
-    subprocess.call(vdbc)
-    return 0 
+    vdbcmd = [ VDBENCH, "-f" , vtestfile ]
+    return subprocess.call(vdbcmd)
 
 FIO="/usr/local/bin/fio"
 def fio_io(args):
-    if len(args) < 1:
+    if len(args) < 2:
+        logger.error("fio </fsname> <testname>")
         return -1
     root = args[0]
+    #TODO: Check if this is a valid mountpoint
+    fiotest = args[1]
+    ftestfile = "/diobench/fiorun/" + fiotest + ".fio" 
+    if not os.path.isfile(ftestfile):
+        logger.error(ftestfile + " not found")
+        return -1
     os.chdir(root)
-    
-    return 0 
+    fiocmd = [ FIO, ftestfile ]
+    return subprocess.call(fiocmd)
 
 
 def command(cmd, args):
