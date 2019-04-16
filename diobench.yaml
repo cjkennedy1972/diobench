@@ -1,14 +1,14 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: dat-pvc-claim
+  name: diobench-pvc-claim
 spec:
   storageClassName: dat-block-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1000Gi
+      storage: 10Gi
 ---
 apiVersion: batch/v1
 kind: Job
@@ -27,7 +27,7 @@ spec:
         volumeMounts:
           - mountPath: /data
             name: diobench-pvc
-          command: [ "/bin/diobench", "--hello", "/data" , 10, 8192 ]
+          command: [ "/bin/diobench", "--hello", "/data" , "10", "8192" ]
           #command: [ "/bin/diobench", "--vdb", "/data", "vdbtestname" ]
           #command: [ "/bin/diobench", "--fio", "/data", "fiotestname" ]
       restartPolicy: Never

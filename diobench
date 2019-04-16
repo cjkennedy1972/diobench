@@ -36,7 +36,7 @@ def hello_io(args):
     if len(args) >= 3:
         blksize = int(args[2])
 
-    logger.debug("start: " + count + " data blocks of " + blksize);
+    logger.debug("start: " + str(count) + " data blocks of " + str(blksize));
     for c in range(0,count):
         databuf = os.urandom(blksize)
         hash_sha256 = hashlib.sha256()
@@ -63,7 +63,7 @@ def hello_io(args):
             logger.error("Mismatch: " + str(sig) + "\t" + str(rsig))
             return -1;
         os.remove(fname)
-        logger.debug("end: " + count + " data blocks of " + blksize);
+        logger.debug("end: " + str(count) + " data blocks of " + str(blksize));
     return 0
 
 VDBENCH="/diobench/vdbench/vdbench"
