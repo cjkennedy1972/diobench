@@ -2,9 +2,9 @@
 
 This docker container allows you to run:
 
-	- [vdbench]( https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html )
-	- [FIO]( https://github.com/axboe/fio )
-	- hello IO	( Simple test for X number of write/read/deletes of size Y ) 
+- vdbench [Oracle Suite](https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html)
+- FIO [fio](https://github.com/axboe/fio)
+- Hello IO [diobench](https://raw.githubusercontent.com/xdatanext/diobench/master/diobench)
 
 ## How to run this in Kubernetes
 
@@ -15,7 +15,6 @@ This docker container allows you to run:
 A sample job yaml for Kubernetes PVC looks like this
 
 ```yaml
-
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -24,29 +23,27 @@ spec:
   template:
     spec:
       containers:
-      - name: diobench
-        image: xdatanext/diobench:latest
-        imagePullPolicy: Always
-        env:
-          - name: DIOBENCH_RESULTS
-            value: /data/perf_results
-        volumeMounts:
-          - mountPath: /data
-            name: diobench-pvc
-        #command: [ "/bin/diobench", "--hello", "/data" , "100", "8192" ]
-        command: [ "/bin/diobench", "--fio", "/data", "fio_seq_RW" ]
-        #command: [ "/bin/diobench", "--vdb", "/data", "sample" ]
+        - name: diobench
+          image: xdatanext/diobench:latest
+          imagePullPolicy: Always
+          env:
+            - name: DIOBENCH_RESULTS
+              value: /data/perf_results
+          volumeMounts:
+            - mountPath: /data
+              name: diobench-pvc
+          #command: [ "/bin/diobench", "--hello", "/data" , "100", "8192" ]
+          command: ["/bin/diobench", "--fio", "/data", "fio_seq_RW"]
+          #command: [ "/bin/diobench", "--vdb", "/data", "sample" ]
       restartPolicy: Never
       volumes:
-      - name: diobench-pvc
-        persistentVolumeClaim:
-          claimName: diobench-pvc-claim
+        - name: diobench-pvc
+          persistentVolumeClaim:
+            claimName: diobench-pvc-claim
   backoffLimit: 4
-
 ```
 
 The example above runs the "diobench" test using fio sequential Read-Write test called fio_seq_RW .
-
 
 ### Output
 
@@ -67,4 +64,4 @@ Retrieve the logs for the I/O job
 	% kubectl logs diobench
 ```
 
-and observe the output of the test run 
+and observe the output of the test run
