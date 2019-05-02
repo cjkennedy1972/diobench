@@ -1,9 +1,10 @@
 # diobench - Data I/O benchmark tests
 
 This docker container allows you to run:
-	* vdbench	( https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html )
-	* FIO		( https://github.com/axboe/fio )
-	* hello io	( Simple test for X number of write/read/deletes of size Y ) 
+
+	- [vdbench]( https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html )
+	- [FIO]( https://github.com/axboe/fio )
+	- hello IO	( Simple test for X number of write/read/deletes of size Y ) 
 
 ## How to run this in Kubernetes
 
