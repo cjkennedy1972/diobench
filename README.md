@@ -1,9 +1,9 @@
 # diobench - Data I/O benchmark tests
 
 This docker container allows you to run:
-	- vdbench	( https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html )
-	- FIO		( https://github.com/axboe/fio )
-	- hello io	( Simple test for X number of write/read/deletes of size Y ) 
+	* vdbench	( https://www.oracle.com/technetwork/server-storage/vdbench-downloads-1901681.html )
+	* FIO		( https://github.com/axboe/fio )
+	* hello io	( Simple test for X number of write/read/deletes of size Y ) 
 
 ## How to run this in Kubernetes
 
@@ -53,8 +53,17 @@ The test run output is all sent to the stdout of the container run so use
 
 ```bash
 	% kubectl get jobs
-	djobrun
-	% kubectl logs djobrun
+	diobench
+
+	% kubectl describe job diobench
+	...
+	...
+```
+
+Retrieve the logs for the I/O job
+
+```bash
+	% kubectl logs diobench
 ```
 
 and observe the output of the test run 
