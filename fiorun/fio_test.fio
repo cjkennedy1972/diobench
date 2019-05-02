@@ -1,0 +1,26 @@
+; fio-test.job for fiotest
+; Sample run for rand rw for 75/25 r/w
+; and quick check on iops
+
+[global]
+
+name=fio-test-RW
+filename=fio-test-RW
+rw=randrw
+randrepeat=1
+rwmixread=75
+
+bs=4K
+direct=1
+numjobs=16
+
+time_based=1
+runtime=900
+gtod_reduce=1
+
+
+[file1]
+
+size=4G
+ioengine=libaio
+iodepth=64

@@ -1,0 +1,15 @@
+; fio-seq-R.job for fiotest
+
+[global]
+name=fio-seq-R
+filename=fio-seq-R
+rw=read
+bs=8K
+direct=1
+numjobs=8
+time_based=1
+runtime=600
+
+[file1]
+size=1G
+ioengine=libaio

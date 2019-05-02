@@ -21,17 +21,11 @@ COPY requirements.txt /diobench/
 WORKDIR /diobench
 RUN pip3 install -r requirements.txt
 
-# TODO
-RUN cd /diobench && git clone https://github.com/xdatanext/ddct.git
-#RUN cd /diobench/ddct && ./install.py 
-RUN cd /diobench && git clone https://github.com/xdatanext/dbmp.git
-#RUN cd /diobench/dbmp && ./install.py 
-
 # vdbench
 RUN mkdir -p /diobench/vdbench
-# TODO: Need a direct URL from Oracle here
-#COPY vdbench50407.zip /diobench/vdbench
-#RUN cd /diobench/vdbench && unzip vdbench50407.zip 
+RUN wget --quiet https://github.com/masakioui/vdb/raw/master/vdbench50407.tar \
+			-O /diobench/vdbench/vdbench50407.tar
+RUN cd /diobench/vdbench && tar xvf vdbench50407.tar
 
 # fio
 RUN cd /diobench && git clone https://github.com/axboe/fio.git
@@ -40,6 +34,7 @@ RUN cd /diobench/fio && make
 RUN cd /diobench/fio && make install
 RUN cd /diobench/fio && make clean
 RUN cd /diobench && rm -rf fio 
+
 
 COPY diobench /bin
 RUN mkdir /data

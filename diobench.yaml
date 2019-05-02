@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
 ---
 apiVersion: batch/v1
 kind: Job
@@ -27,9 +27,9 @@ spec:
         volumeMounts:
           - mountPath: /data
             name: diobench-pvc
-          command: [ "/bin/diobench", "--hello", "/data" , "10", "8192" ]
-          #command: [ "/bin/diobench", "--vdb", "/data", "vdbtestname" ]
-          #command: [ "/bin/diobench", "--fio", "/data", "fiotestname" ]
+        #command: [ "/bin/diobench", "--hello", "/data" , "100", "8192" ]
+        command: [ "/bin/diobench", "--fio", "/data", "fio_seq_RW" ]
+        #command: [ "/bin/diobench", "--vdb", "/data", "sample" ]
       restartPolicy: Never
       volumes:
       - name: diobench-pvc
