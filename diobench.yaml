@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: diobench-pvc-claim
 spec:
-  storageClassName: dat-block-storage
+  storageClassName: portworx-sc
   accessModes:
     - ReadWriteOnce
   resources:
@@ -28,8 +28,8 @@ spec:
           - mountPath: /data
             name: diobench-pvc
         #command: [ "/bin/diobench", "--hello", "/data" , "100", "8192" ]
-        command: [ "/bin/diobench", "--fio", "/data", "fio_seq_RW" ]
-        #command: [ "/bin/diobench", "--vdb", "/data", "sample" ]
+        #command: [ "/bin/diobench", "--fio", "/data", "fio_seq_RW" ]
+        command: [ "/bin/diobench", "--vdb", "/data", "sample" ]
       restartPolicy: Never
       volumes:
       - name: diobench-pvc
